@@ -1,0 +1,8 @@
+.td-map {
+    display: flex;
+    gap: 1rem;
+}
+
+#save-button {
+    visibility: hidden;
+}

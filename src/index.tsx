@@ -1,15 +1,21 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import "bootstrap/dist/css/bootstrap.css";
+import Airplane from "./components/Airplane";
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+  document.getElementById("root") as HTMLElement
 );
+const dummyAirplanes: Airplane[] = [
+  { id: 0, model: "Airbus", capacity: 230, type: "A320" },
+  { id: 1, model: "Boeing", capacity: 368, type: "777" },
+  { id: 2, model: "Gulfstream", capacity: 19, type: "G800" },
+];
 root.render(
   <React.StrictMode>
-    <App />
+    <App dummyAirplanes={dummyAirplanes} />
   </React.StrictMode>
 );
 

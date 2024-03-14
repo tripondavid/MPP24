@@ -1,0 +1,8 @@
+input {
+    border-radius: 10px;
+}
+
+.edit-style {
+    display: flex;
+    gap: 1rem;
+}
