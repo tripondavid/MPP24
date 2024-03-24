@@ -3,6 +3,7 @@ import Airplane from "./components/Airplane";
 import AirplaneList from "./components/AirplaneList";
 import { ChangeEvent, useEffect } from "react";
 import { useState } from "react";
+import PieChart from "./components/PieChart";
 
 interface Props {
   dummyAirplanes: Airplane[];
@@ -84,7 +85,7 @@ function App({ dummyAirplanes }: Props) {
   const handlePrevPage = () => {
     setStartIndex(startIndex - 3 >= 0 ? startIndex - 3 : 0);
     setEndIndex(endIndex - 3);
-    if (startIndex == 0) {
+    if (startIndex === 0) {
       setIsPrevDisabled(true);
     }
     if (endIndex < airplanes.length) {
@@ -194,6 +195,10 @@ function App({ dummyAirplanes }: Props) {
         >
           Next
         </button>
+      </div>
+
+      <div style={{ width: 700 }}>
+        <PieChart airplanes={airplanes} />
       </div>
     </>
   );

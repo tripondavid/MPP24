@@ -2,7 +2,6 @@ import { useState } from "react";
 import Airplane from "./Airplane";
 import "./AirplaneList.css";
 import EditAirplane from "./EditAirplane";
-import { start } from "repl";
 
 interface Props {
   airplanes: Airplane[];
