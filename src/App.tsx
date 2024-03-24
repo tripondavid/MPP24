@@ -14,6 +14,12 @@ function App({ dummyAirplanes }: Props) {
   const [capacity, setCapacity] = useState(0);
   const [type, setType] = useState("");
   const inputs = document.querySelectorAll("input");
+  const [startIndex, setStartIndex] = useState(0);
+  const [endIndex, setEndIndex] = useState(
+    3 < airplanes.length ? 3 : airplanes.length - 1
+  );
+  const [isPrevDisabled, setIsPrevDisabled] = useState(true);
+  const [isNextDisabled, setIsNextDisabled] = useState(false);
   let maxLength = dummyAirplanes.length;
 
   const handleChangeModel = (event: ChangeEvent<HTMLInputElement>) => {
@@ -73,9 +79,43 @@ function App({ dummyAirplanes }: Props) {
   const handleSortPlane = () => {
     const newAirplanes = [...airplanes].sort((a, b) => b.capacity - a.capacity);
     setAirplanes(newAirplanes);
-    console.log(airplanes);
   };
 
+  const handlePrevPage = () => {
+    setStartIndex(startIndex - 3 >= 0 ? startIndex - 3 : 0);
+    setEndIndex(endIndex - 3);
+    if (startIndex == 0) {
+      setIsPrevDisabled(true);
+    }
+    if (endIndex < airplanes.length) {
+      setIsNextDisabled(false);
+    }
+  };
+
+  const handleNextPage = () => {
+    const updateStartIndex = startIndex + 3;
+    setStartIndex(updateStartIndex);
+    const updatePrevIndex =
+      endIndex < airplanes.length ? endIndex + 3 : airplanes.length - 1;
+    setEndIndex(updatePrevIndex);
+  };
+
+  const updateButtonsStatus = () => {
+    if (startIndex > 0) {
+      setIsPrevDisabled(false);
+    } else {
+      setIsPrevDisabled(true);
+    }
+    if (endIndex >= airplanes.length - 1) {
+      setIsNextDisabled(true);
+    } else {
+      setIsNextDisabled(false);
+    }
+  };
+
+  useEffect(() => {
+    updateButtonsStatus();
+  });
   return (
     <>
       <div className="input-div">
@@ -132,7 +172,28 @@ function App({ dummyAirplanes }: Props) {
           airplanes={airplanes}
           onDeleteHandler={handleDeletePlane}
           onUpdateHandler={handleEditPlane}
+          startIndex={startIndex}
+          endIndex={endIndex}
         />
+      </div>
+
+      <div className="pagination-div">
+        <button
+          type="button"
+          className="btn btn-dark"
+          onClick={handlePrevPage}
+          disabled={isPrevDisabled}
+        >
+          Prev
+        </button>
+        <button
+          type="button"
+          className="btn btn-dark"
+          onClick={handleNextPage}
+          disabled={isNextDisabled}
+        >
+          Next
+        </button>
       </div>
     </>
   );

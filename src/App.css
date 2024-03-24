@@ -15,3 +15,8 @@
 .input-button {
   border-radius: 10px;
 }
+
+.pagination-div {
+  display: flex;
+  gap: 2rem;
+}

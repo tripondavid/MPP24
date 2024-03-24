@@ -2,6 +2,7 @@ import { useState } from "react";
 import Airplane from "./Airplane";
 import "./AirplaneList.css";
 import EditAirplane from "./EditAirplane";
+import { start } from "repl";
 
 interface Props {
   airplanes: Airplane[];
@@ -12,10 +13,19 @@ interface Props {
     capacity: number,
     type: string
   ) => void;
+  startIndex: number;
+  endIndex: number;
 }
 
-function AirplaneList({ airplanes, onDeleteHandler, onUpdateHandler }: Props) {
+function AirplaneList({
+  airplanes,
+  onDeleteHandler,
+  onUpdateHandler,
+  startIndex,
+  endIndex,
+}: Props) {
   const [updateId, setUpdateId] = useState(-1);
+  const slicedAirplanes = airplanes.slice(startIndex, endIndex + 1);
   return (
     <table className="table table-striped">
       <thead>
@@ -27,7 +37,7 @@ function AirplaneList({ airplanes, onDeleteHandler, onUpdateHandler }: Props) {
         </tr>
       </thead>
       <tbody>
-        {airplanes.map((airplane) =>
+        {slicedAirplanes.map((airplane) =>
           airplane.id === updateId ? (
             <EditAirplane
               updateId={updateId}
