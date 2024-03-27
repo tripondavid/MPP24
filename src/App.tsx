@@ -21,7 +21,7 @@ function App({ dummyAirplanes }: Props) {
   );
   const [isPrevDisabled, setIsPrevDisabled] = useState(true);
   const [isNextDisabled, setIsNextDisabled] = useState(false);
-  let maxLength = dummyAirplanes.length;
+  const [maxLength, setMaxLength] = useState(dummyAirplanes.length);
 
   const handleChangeModel = (event: ChangeEvent<HTMLInputElement>) => {
     setModel(event.target.value);
@@ -48,7 +48,8 @@ function App({ dummyAirplanes }: Props) {
       type: type,
     };
     setAirplanes([...airplanes, airplane]);
-    maxLength = maxLength + 1;
+    const updateMax = maxLength + 1;
+    setMaxLength(updateMax);
 
     inputs.forEach((input) => (input.value = ""));
   };
@@ -98,6 +99,7 @@ function App({ dummyAirplanes }: Props) {
     setStartIndex(updateStartIndex);
     const updatePrevIndex =
       endIndex < airplanes.length ? endIndex + 3 : airplanes.length - 1;
+    console.log(updatePrevIndex);
     setEndIndex(updatePrevIndex);
   };
 
