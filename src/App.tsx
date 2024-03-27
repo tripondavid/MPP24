@@ -199,7 +199,7 @@ function App({ dummyAirplanes }: Props) {
         </button>
       </div>
 
-      <div style={{ width: 700 }}>
+      <div id="pie-chart" style={{ width: 700 }}>
         <PieChart airplanes={airplanes} />
       </div>
     </>

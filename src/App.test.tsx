@@ -5,6 +5,7 @@ import {
   screen,
 } from "@testing-library/react";
 import App from "./App";
+import exp from "constants";
 
 test("check add", () => {
   render(<App dummyAirplanes={[]} />);
@@ -25,6 +26,7 @@ test("check add", () => {
   fireEvent.change(inputCapacity, { target: { value: 2 } });
   fireEvent.change(inputType, { target: { value: "Type A" } });
   fireEvent.click(button);
+  fireEvent.click(screen.getByText("Next"));
 
   expect(screen.getByText("Cessna")).toBeInTheDocument();
   expect(screen.getByText("2")).toBeInTheDocument();
@@ -66,4 +68,39 @@ test("check sort", () => {
   } else {
     expect(true);
   }
+});
+
+test("check pagination", () => {
+  render(<App dummyAirplanes={dummyAirplanes} />);
+
+  expect(screen.getByText("Prev")).toBeInTheDocument();
+  expect(screen.getByText("Next")).toBeInTheDocument();
+
+  expect(screen.getByText("Prev")).toHaveAttribute("disabled");
+  expect(screen.getByText("Next")).toHaveAttribute("disabled");
+
+  const inputModel = screen.getByPlaceholderText("Airplane Model...");
+  const inputCapacity = screen.getByPlaceholderText("Airplane Capacity...");
+  const inputType = screen.getByPlaceholderText("Airplane Type...");
+  const button = screen.getByText("Insert the Airplane");
+
+  fireEvent.change(inputModel, { target: { value: "Cessna" } });
+  fireEvent.change(inputCapacity, { target: { value: 2 } });
+  fireEvent.change(inputType, { target: { value: "Type A" } });
+  fireEvent.click(button);
+  expect(screen.getByText("Next")).toHaveAttribute("enabled");
+  fireEvent.click(screen.getByText("Next"));
+
+  expect(screen.getByText("Cessna")).toBeInTheDocument();
+  expect(screen.getByText("2")).toBeInTheDocument();
+  expect(screen.getByText("Type A")).toBeInTheDocument();
+
+  expect(screen.getByText("Prev")).toHaveAttribute("enabled");
+  expect(screen.getByText("Next")).toHaveAttribute("disabled");
+});
+
+test("check chart", () => {
+  render(<App dummyAirplanes={dummyAirplanes} />);
+
+  expect(screen.getByTestId("pie-chart")).toBeInTheDocument();
 });
