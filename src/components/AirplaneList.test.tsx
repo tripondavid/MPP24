@@ -1,6 +1,6 @@
 import AirplaneList from "./AirplaneList";
 import { render, fireEvent, screen } from "@testing-library/react";
-/*
+
 const dummyAirplanes = [
   { id: 0, model: "Airbus", capacity: 230, type: "A320" },
   { id: 1, model: "Boeing", capacity: 368, type: "777" },
@@ -20,6 +20,8 @@ test("check read", () => {
       airplanes={dummyAirplanes}
       onDeleteHandler={mockOnDeleteHandler}
       onUpdateHandler={mockOnUpdateHandler}
+      startIndex={0}
+      endIndex={2}
     />
   );
 
@@ -42,6 +44,8 @@ test("check delete", () => {
       airplanes={dummyAirplanes2}
       onDeleteHandler={mockOnDeleteHandler}
       onUpdateHandler={mockOnUpdateHandler}
+      startIndex={0}
+      endIndex={2}
     />
   );
 
@@ -50,4 +54,3 @@ test("check delete", () => {
   fireEvent.click(screen.getByText("Delete"));
   expect(mockOnDeleteHandler).toHaveBeenCalledTimes(1);
 });
-*/

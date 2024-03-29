@@ -22,6 +22,8 @@ function App({ dummyAirplanes }: Props) {
   const [isPrevDisabled, setIsPrevDisabled] = useState(true);
   const [isNextDisabled, setIsNextDisabled] = useState(false);
   const [maxLength, setMaxLength] = useState(dummyAirplanes.length);
+  const [pageNumber, setPageNumber] = useState(1);
+  const [pageSize, setPageSize] = useState(3);
 
   const handleChangeModel = (event: ChangeEvent<HTMLInputElement>) => {
     setModel(event.target.value);
@@ -84,23 +86,25 @@ function App({ dummyAirplanes }: Props) {
   };
 
   const handlePrevPage = () => {
-    setStartIndex(startIndex - 3 >= 0 ? startIndex - 3 : 0);
-    setEndIndex(endIndex - 3);
+    setStartIndex(startIndex - pageSize >= 0 ? startIndex - pageSize : 0);
+    setEndIndex(endIndex - pageSize);
     if (startIndex === 0) {
       setIsPrevDisabled(true);
     }
     if (endIndex < airplanes.length) {
       setIsNextDisabled(false);
     }
+    setPageNumber(pageNumber - 1);
   };
 
   const handleNextPage = () => {
-    const updateStartIndex = startIndex + 3;
+    const updateStartIndex = startIndex + pageSize;
     setStartIndex(updateStartIndex);
     const updatePrevIndex =
-      endIndex < airplanes.length ? endIndex + 3 : airplanes.length - 1;
+      endIndex < airplanes.length ? endIndex + pageSize : airplanes.length - 1;
     console.log(updatePrevIndex);
     setEndIndex(updatePrevIndex);
+    setPageNumber(pageNumber + 1);
   };
 
   const updateButtonsStatus = () => {
@@ -114,6 +118,18 @@ function App({ dummyAirplanes }: Props) {
     } else {
       setIsNextDisabled(false);
     }
+  };
+
+  const handlePageSize = (event: any) => {
+    const updatePageSize = event.target.value;
+    setPageNumber(1);
+    setPageSize(updatePageSize);
+    setStartIndex(0);
+    const updateEndIndex =
+      updatePageSize < airplanes.length
+        ? updatePageSize - 1
+        : airplanes.length - 1;
+    setEndIndex(updateEndIndex);
   };
 
   useEffect(() => {
@@ -197,6 +213,12 @@ function App({ dummyAirplanes }: Props) {
         >
           Next
         </button>
+        <p className="font-weight-light">Page: {pageNumber}</p>
+        <select role="select" onChange={(event) => handlePageSize(event)}>
+          <option value={3}>3</option>
+          <option value={6}>6</option>
+          <option value={9}>9</option>
+        </select>
       </div>
 
       <div id="pie-chart" style={{ width: 700 }}>

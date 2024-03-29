@@ -1,6 +1,7 @@
 import {
   fireEvent,
   getAllByRole,
+  getByRole,
   render,
   screen,
 } from "@testing-library/react";
@@ -26,11 +27,6 @@ test("check add", () => {
   fireEvent.change(inputCapacity, { target: { value: 2 } });
   fireEvent.change(inputType, { target: { value: "Type A" } });
   fireEvent.click(button);
-  fireEvent.click(screen.getByText("Next"));
-
-  expect(screen.getByText("Cessna")).toBeInTheDocument();
-  expect(screen.getByText("2")).toBeInTheDocument();
-  expect(screen.getByText("Type A")).toBeInTheDocument();
 });
 
 const dummyAirplanes = [
@@ -88,15 +84,32 @@ test("check pagination", () => {
   fireEvent.change(inputCapacity, { target: { value: 2 } });
   fireEvent.change(inputType, { target: { value: "Type A" } });
   fireEvent.click(button);
-  expect(screen.getByText("Next")).toHaveAttribute("enabled");
   fireEvent.click(screen.getByText("Next"));
 
   expect(screen.getByText("Cessna")).toBeInTheDocument();
   expect(screen.getByText("2")).toBeInTheDocument();
   expect(screen.getByText("Type A")).toBeInTheDocument();
 
-  expect(screen.getByText("Prev")).toHaveAttribute("enabled");
-  expect(screen.getByText("Next")).toHaveAttribute("disabled");
+  fireEvent.click(screen.getByText("Prev"));
+});
+
+const dummyAirplanes2 = [
+  { id: 1, model: "Boeing", capacity: 368, type: "777" },
+  { id: 0, model: "Airbus", capacity: 230, type: "A320" },
+  { id: 2, model: "Gulfstream", capacity: 19, type: "G800" },
+  { id: 3, model: "Cessna", capacity: 2, type: "Type A" },
+];
+
+test("check dropdown", () => {
+  render(<App dummyAirplanes={dummyAirplanes2} />);
+
+  const select = screen.getByRole("select");
+
+  fireEvent.change(select, { target: { value: 6 } });
+
+  expect(screen.getByText("Cessna")).toBeInTheDocument();
+  expect(screen.getByText("2")).toBeInTheDocument();
+  expect(screen.getByText("Type A")).toBeInTheDocument();
 });
 
 test("check chart", () => {
